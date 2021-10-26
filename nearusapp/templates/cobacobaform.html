@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!-- masih ngikutin example tutorial aja. belom eksplor lagi-->
+<body>
+  <p>test</p>
+  <form method="post">
+    {% csrf_token %}
+    <label for="user_place_1"> Your location: </label>
+    <input
+      id="user_place_1"
+      type="text"
+      name="user_place_1"
+      value="{{user_1}}"
+      />
+    <input
+      id="user_place_2"
+      type="text"
+      name="user_place_2"
+      value="{{user_2}}"
+    />
+    <input
+      id="user_place_3"
+      type="text"
+      name="user_place_3"
+      value="{{user_3}}"
+    />
+    <input
+      id="target_place"
+      type="text"
+      name="target_place"
+      value="{{target}}"
+    />
+    <input type="submit" value="OK" />
+  </form>
+  {%  if ready %}
+  <p> {{ result }} </p>
+  {% endif %}
+</body>
