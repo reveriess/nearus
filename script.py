@@ -28,28 +28,48 @@ def unpack_places(places):
     results = places['results'][0]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
     return results
 
+def unpack_target_places(places):
+    status = places['status']
+    if (status == 'OK'):
+        places_ok = True
+    else:
+        places_ok = False
+    results = places['results'][0:3]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
+    return results
 
 # places hasil search jadi object. data data nya kaya business_status,
 # geometry, dsb jadi attributes saja
 # Input berupa dict
 class Place():
+    
     def __init__(self, results):
-        #keknya beda places beda isi results. perlu dicek lagi. (refer ke note 2)
-       # self.business_status = results['business_status']
-        self.formatted_address = results['formatted_address']
-        self.geometry = results['geometry']
-       # self.icon = results['icon']
-       # self.icon_background_color = results['icon_background_color']
-       # self.icon_mask_base_uri = results['icon_mask_base_uri']
-        self.name = results['name']
-       # self.opening_hours = results['opening_hours']
-       # self.photos = results['photos']
-       # self.place_id = results['place_id']
-       # self.plus_code = results['plus_code']
-       # self.rating = results['rating']
-       # self.reference = results['reference']
-       # self.types = results['types']
-       # self.user_ratings_total = results['user_ratings_total']
+        self.address_components=results.get('address_components')
+        self.adr_address=results.get('adr_address')
+        self.business_status = results.get('business_status')
+        self.formatted_address = results.get('formatted_address')
+        self.formatted_phone_number = results.get('formatted_phone_number')
+        self.geometry = results.get('geometry')
+        self.icon = results.get('icon')
+        self.icon_background_color = results.get('icon_background_color')
+        self.icon_mask_base_uri = results.get('icon_mask_base_uri')
+        self.international_phone_number= results.get('international_phone_number')
+        self.name = results.get('name')
+        self.opening_hours = results.get('opening_hours')
+        self.permanently_closed = results.get('permanently_closed')
+        self.photos = results.get('photos')
+        self.place_id = results.get('place_id')
+        self.plus_code = results.get('plus_code')
+        self.price_level = results.get('price_level')
+        self.rating = results.get('rating')
+        self.reference = results.get('reference')
+        self.reviews = results.get('reviews')
+        self.scope = results.get('scope')
+        self.types = results.get('types')
+        self.url = results.get('url')
+        self.user_ratings_total = results.get('user_ratings_total')
+        self.utc_offset = results.get('utc_offset')
+        self.vicinity = results.get('vicinity')
+        self.website = results.get('website')
     
     #Unpack geometry attribute to acquire latlong
     def get_latlong(self): 
@@ -84,6 +104,8 @@ def distance_based_decision(n,places_of_interest,places_of_users):
         latlong=i.get_latlong()
         dist_places.append(haversine_distance(latlong,centroid_users))
     #get the top n nearest
+    if len(dist_places) < n:
+        n=len(dist_places)
     for i in range(n):
         print(dist_places)
         top_n_distances.append(dist_places.index(min(dist_places))) #ambil index dist_places dengan nilai minimum
