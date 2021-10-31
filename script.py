@@ -26,8 +26,14 @@ def unpack_places(places):
         places_ok = True
     else:
         places_ok = False
+<<<<<<< HEAD
     # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
     results = places["results"][0]
+=======
+    results = places["results"][
+        0
+    ]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
+>>>>>>> added static map, html refactoring
     return results
 
 
@@ -105,8 +111,9 @@ def haversine_distance(loc1, loc2):
 # top n places of interest (as a suggestion) based on their haversine distance
 def distance_based_decision(n, places_of_interest, places_of_users):
     centroid_users = centroid(places_of_users)
-    # placeholder for distance between each places of interests candidate to user's centroid
-    dist_places = []
+    dist_places = (
+        []
+    )  # placeholder for distance between each places of interests candidate to user's centroid
     top_n_distances = []  # placeholder for top n places with closest distance
     # get the distance from each loc of interests to their centroid
     for i in places_of_interest:
@@ -117,11 +124,12 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         n = len(dist_places)
     for i in range(n):
         print(dist_places)
-        # ambil index dist_places dengan nilai minimum
-        top_n_distances.append(dist_places.index(min(dist_places)))
+        top_n_distances.append(
+            dist_places.index(min(dist_places))
+        )  # ambil index dist_places dengan nilai minimum
         dist_places.pop(dist_places.index(min(dist_places)))
     top_n_places_of_interest = [
         [places_of_interest[i].name, places_of_interest[i].formatted_address]
         for i in top_n_distances
     ]
-    return top_n_places_of_interest
+    return centroid_users,top_n_places_of_interest
