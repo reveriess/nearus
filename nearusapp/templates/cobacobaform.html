@@ -10,7 +10,7 @@
       type="text"
       name="user_place_1"
       value="{{user_place_1_returned}}"
-      />
+    />
     <label for="user_place_2"> User 2: </label>
     <input
       id="user_place_2"
@@ -35,22 +35,20 @@
     <input type="submit" value="OK" />
   </form>
 
-  {%  if ready %}
-    <ol>
+  {% if ready %}
+  <ol>
     {% for res in result%}
-        <li>
+    <li>
       {% for data in res%}
-         <ul>
-         <li> {{ data }} </li>
-        </ul>
+      <ul>
+        <li>{{ data }}</li>
+      </ul>
       {%endfor%}
     </li>
     {%endfor%}
-    </ol>
+  </ol>
 
-    <img src={{staticimg_url}} >
+  <img src="{{staticimg_url}}" />
 
   {% endif %}
-  
-
 </body>

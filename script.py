@@ -13,6 +13,11 @@ def get_places(location):
     return places  # places=dict
 
 
+def get_places_target(location, centroid_users):
+    places = gmaps.places(location, centroid_users)
+    return places  # places=dict
+
+
 # unpack places from
 def unpack_places(places):
     status = places["status"]
@@ -33,7 +38,7 @@ def unpack_target_places(places):
     else:
         places_ok = False
     results = places["results"][
-        0:3
+        0:10
     ]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
     return results
 
@@ -103,7 +108,9 @@ def distance_based_decision(n, places_of_interest, places_of_users):
     dist_places = (
         []
     )  # placeholder for distance between each places of interests candidate to user's centroid
-    top_n_distances = []  # placeholder for top n places with closest distance
+    top_n_distances_idx = (
+        []
+    )  # placeholder for top n places (index) with closest distance
     # get the distance from each loc of interests to their centroid
     for i in places_of_interest:
         latlong = i.get_latlong()
@@ -112,13 +119,21 @@ def distance_based_decision(n, places_of_interest, places_of_users):
     if len(dist_places) < n:
         n = len(dist_places)
     for i in range(n):
-        print(dist_places)
-        top_n_distances.append(
+        top_n_distances_idx.append(
             dist_places.index(min(dist_places))
         )  # ambil index dist_places dengan nilai minimum
+        idx_pop = dist_places.index(min(dist_places))
         dist_places.pop(dist_places.index(min(dist_places)))
-    top_n_places_of_interest = [
+        dist_places.insert(idx_pop, max(dist_places) + 1)
+    top_n_places_of_interest_short = [
         [places_of_interest[i].name, places_of_interest[i].formatted_address]
-        for i in top_n_distances
+        for i in top_n_distances_idx
     ]
-    return centroid_users,top_n_places_of_interest
+    top_n_places_of_interest_object = [
+        places_of_interest[i] for i in top_n_distances_idx
+    ]
+    return (
+        centroid_users,
+        top_n_places_of_interest_short,
+        top_n_places_of_interest_object,
+    )
