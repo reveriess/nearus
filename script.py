@@ -3,12 +3,6 @@ import haversine as hs
 from haversine import Unit
 import os
 
-
-# Notes:
-# 1. Places dari gmaps belom ada cara untuk "milih yang terbaik dari opsi opsi yang dikasih gmaps"
-# 2. Dynamic attributes?
-
-
 # client setup
 API_KEY = os.environ.get("API_KEY")
 gmaps = googlemaps.Client(key=API_KEY)
@@ -26,14 +20,9 @@ def unpack_places(places):
         places_ok = True
     else:
         places_ok = False
-<<<<<<< HEAD
-    # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
-    results = places["results"][0]
-=======
     results = places["results"][
         0
     ]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
->>>>>>> added static map, html refactoring
     return results
 
 

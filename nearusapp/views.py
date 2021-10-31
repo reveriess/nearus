@@ -5,7 +5,7 @@ from staticmaps import staticmaps_func
 from script import (
     get_places,
     unpack_places,
-    unpack_target_places
+    unpack_target_places,
     Place,
     centroid,
     haversine_distance,
