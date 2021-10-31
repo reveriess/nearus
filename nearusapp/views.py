@@ -19,9 +19,17 @@ from .forms import UserLocation
 
 # masih buat development saja
 def get_location(request):
+    context = {
+        "form": UserLocation(),
+        "result": None,
+        "staticimg_url": None,
+    }
+
     staticimg_url = "https://maps.googleapis.com/maps/api/staticmap?"
+
     if request.method == "POST":
-        form = UserLocation(request.POST)
+        form = context["form"] = UserLocation(request.POST)
+
         if form.is_valid():
             print("im in")
             address_1 = form.cleaned_data["user_place_1"]
@@ -45,24 +53,14 @@ def get_location(request):
                 5, target_places, user_places
             )
             target_latlong = [i.get_latlong() for i in result_place]
-            print(target_latlong)
-            ready = True
             staticimg_url = staticmaps_func(
                 staticimg_url, user_latlong, target_latlong, centroid_users
             )
-            return render(
-                request,
-                "cobacobaform.html",
-                {
-                    "result": result_short,
-                    "ready": ready,
-                    "user_place_1_returned": address_1,
-                    "user_place_2_returned": address_2,
-                    "user_place_3_returned": address_3,
-                    "target_place_returned": address_4,
-                    "staticimg_url": staticimg_url,
-                },
-            )
+
+            context["result"] = result_short
+            context["staticimg_url"] = staticimg_url
+            return render(request, "cobacobaform.html", context)
     else:
         form = UserLocation()
-    return render(request, "cobacobaform.html", {"form": form})
+
+    return render(request, "cobacobaform.html", context)
