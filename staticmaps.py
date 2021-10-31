@@ -38,7 +38,7 @@ def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users)
         + ",".join([str(c) for c in centroid_users])
     )
     print(markers_str)
-    center = "Jakarta"
+    center = str(centroid_users)
     size = "size=500x500"
     scale = "scale=1"
     zoom = "zoom=11"

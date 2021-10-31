@@ -111,10 +111,12 @@ def distance_based_decision(n, places_of_interest, places_of_users):
     top_n_distances_idx = (
         []
     )  # placeholder for top n places (index) with closest distance
+    dist_places_untouched=[]
     # get the distance from each loc of interests to their centroid
     for i in places_of_interest:
         latlong = i.get_latlong()
         dist_places.append(haversine_distance(latlong, centroid_users))
+        dist_places_untouched.append(haversine_distance(latlong, centroid_users))
     # get the top n nearest
     if len(dist_places) < n:
         n = len(dist_places)
@@ -126,7 +128,7 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         dist_places.pop(dist_places.index(min(dist_places)))
         dist_places.insert(idx_pop, max(dist_places) + 1)
     top_n_places_of_interest_short = [
-        [places_of_interest[i].name, places_of_interest[i].formatted_address]
+        [places_of_interest[i].name, str(int(dist_places_untouched[i]))+" meters from centroid", places_of_interest[i].formatted_address]
         for i in top_n_distances_idx
     ]
     top_n_places_of_interest_object = [
