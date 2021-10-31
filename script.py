@@ -3,45 +3,38 @@ import haversine as hs
 from haversine import Unit
 import os
 
-# client setup
-API_KEY = os.environ.get("API_KEY")
-gmaps = googlemaps.Client(key=API_KEY)
 
-# get user's location & generate the "places"
-def get_places(location):
-    places = gmaps.places(location)
-    return places  # places=dict
+class NearusException(Exception):
+    pass
 
 
-def get_places_target(location, centroid_users):
-    places = gmaps.places(location, centroid_users)
-    return places  # places=dict
+class GMaps:
+    def __init__(self, api_key=None):
+        if not api_key:
+            api_key = os.environ.get("API_KEY")
+        self.gmaps = googlemaps.Client(key=api_key)
+
+    def _places(self, query=None, location=None):
+        places = self.gmaps.places(query=query, location=location)
+        status = places["status"]
+        if status != "OK":
+            raise NearusException(f"Google Places API returned status {status}")
+
+        results = places["results"]
+        return results
+
+    # get user's location & generate the "place"
+    def get_place(self, query):
+        # results = list of dicts. disini ambil yang pertama dulu
+        results = self._places(query)
+        return results[0]  # places=dict
+
+    def get_places_target(self, query, centroid):
+        results = self._places(query, centroid)
+        return results[:10]  # places=List[dict]
 
 
-# unpack places from
-def unpack_places(places):
-    status = places["status"]
-    if status == "OK":
-        places_ok = True
-    else:
-        places_ok = False
-    results = places["results"][
-        0
-    ]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
-    return results
-
-
-def unpack_target_places(places):
-    status = places["status"]
-    if status == "OK":
-        places_ok = True
-    else:
-        places_ok = False
-    results = places["results"][
-        0:10
-    ]  # results = list of dicts. disini ambil yang pertama dulu (refer ke note 1)
-    return results
-
+gmaps = GMaps()
 
 # places hasil search jadi object. data data nya kaya business_status,
 # geometry, dsb jadi attributes saja
@@ -111,7 +104,7 @@ def distance_based_decision(n, places_of_interest, places_of_users):
     top_n_distances_idx = (
         []
     )  # placeholder for top n places (index) with closest distance
-    dist_places_untouched=[]
+    dist_places_untouched = []
     # get the distance from each loc of interests to their centroid
     for i in places_of_interest:
         latlong = i.get_latlong()
@@ -128,7 +121,11 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         dist_places.pop(dist_places.index(min(dist_places)))
         dist_places.insert(idx_pop, max(dist_places) + 1)
     top_n_places_of_interest_short = [
-        [places_of_interest[i].name, str(int(dist_places_untouched[i]))+" meters from centroid", places_of_interest[i].formatted_address]
+        [
+            places_of_interest[i].name,
+            str(int(dist_places_untouched[i])) + " meters from centroid",
+            places_of_interest[i].formatted_address,
+        ]
         for i in top_n_distances_idx
     ]
     top_n_places_of_interest_object = [

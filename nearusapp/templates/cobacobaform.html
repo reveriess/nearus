@@ -2,41 +2,13 @@
 <!-- masih ngikutin example tutorial aja. belom eksplor lagi-->
 <body>
   <p>Nearus</p>
-  <p> by reveriess & laymonage </p>
+  <p>by reveriess & laymonage</p>
   <form method="post">
-    {% csrf_token %}
-    <label for="user_place_1"> User 1: </label>
-    <input
-      id="user_place_1"
-      type="text"
-      name="user_place_1"
-      value="{{user_place_1_returned}}"
-    />
-    <label for="user_place_2"> User 2: </label>
-    <input
-      id="user_place_2"
-      type="text"
-      name="user_place_2"
-      value="{{user_place_2_returned}}"
-    />
-    <label for="user_place_3"> User 3: </label>
-    <input
-      id="user_place_3"
-      type="text"
-      name="user_place_3"
-      value="{{user_place_3_returned}}"
-    />
-    <label for="target_place"> Target Place: </label>
-    <input
-      id="target_place"
-      type="text"
-      name="target_place"
-      value="{{target_place_returned}}"
-    />
+    {% csrf_token %} {{ form }}
     <input type="submit" value="OK" />
   </form>
 
-  {% if ready %}
+  {% if result %}
   <ol>
     {% for res in result%}
     <li>
