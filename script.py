@@ -1,6 +1,9 @@
+from datetime import datetime
+from googlemaps.maps import StaticMapMarker
 import googlemaps
 import haversine as hs
 from haversine import Unit
+
 import os
 
 
@@ -32,6 +35,26 @@ class GMaps:
     def get_places_target(self, query, centroid):
         results = self._places(query, centroid)
         return results[:10]  # places=List[dict]
+
+    def get_static_map(self, user_latlongs, target_latlongs, centroid_latlong):
+        user_markers = StaticMapMarker(color="blue", label="U", locations=user_latlongs)
+        target_markers = StaticMapMarker(
+            color="red", label="T", locations=target_latlongs
+        )
+        centroid_marker = StaticMapMarker(
+            color="yellow", label="C", locations=[centroid_latlong]
+        )
+        markers = [user_markers, target_markers, centroid_marker]
+
+        return self.gmaps.static_map(
+            size=(500, 500),
+            scale=1,
+            zoom=12,
+            maptype="roadmap",
+            style={"feature": "poi", "visibility": "off"},
+            center=centroid_latlong,
+            markers=markers,
+        )
 
 
 gmaps = GMaps()
@@ -132,7 +155,15 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         places_of_interest[i] for i in top_n_distances_idx
     ]
     return (
-        centroid_users,
         top_n_places_of_interest_short,
         top_n_places_of_interest_object,
     )
+
+
+def save_to_media(iter_content):
+    now = datetime.now().isoformat()
+    filename = f"{now}.png"
+    with open(f"media/{filename}", "wb") as f:
+        for chunk in iter_content:
+            f.write(chunk)
+    return filename
