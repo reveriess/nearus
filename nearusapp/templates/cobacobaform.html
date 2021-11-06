@@ -1,27 +1,32 @@
+{% load static%}
 <!DOCTYPE html>
 <!-- masih ngikutin example tutorial aja. belom eksplor lagi-->
-<body>
-  <p>Nearus</p>
-  <p>by reveriess & laymonage</p>
-  <form method="post">
-    {% csrf_token %} {{ form }}
-    <input type="submit" value="OK" />
-  </form>
-
-  {% if result %}
-  <ol>
-    {% for res in result%}
-    <li>
-      {% for data in res%}
-      <ul>
-        <li>{{ data }}</li>
-      </ul>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <p>Nearus</p>
+    <p>by reveriess & laymonage</p>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="submit" value="OK" />
+    </form>
+    {% if result %}
+    <ol>
+      {% for res in result%}
+      <li>
+        {% for data in res%}
+        <ul>
+          <li>{{ data }}</li>
+        </ul>
+        {%endfor%}
+      </li>
       {%endfor%}
-    </li>
-    {%endfor%}
-  </ol>
+    </ol>
 
-  <img src="{{staticimg_url}}" />
+    <img src="{{staticimg_url}}" />
 
-  {% endif %}
-</body>
+    {% endif %}
+  </body>
+</html>

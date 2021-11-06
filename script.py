@@ -36,7 +36,9 @@ class GMaps:
         results = self._places(query, centroid)
         return results[:10]  # places=List[dict]
 
-    def get_static_map(self, user_latlongs, target_latlongs, centroid_latlong):
+    def get_static_map(
+        self, user_latlongs, target_latlongs, centroid_latlong, zoom_level=12
+    ):
         user_markers = StaticMapMarker(color="blue", label="U", locations=user_latlongs)
         target_markers = StaticMapMarker(
             color="red", label="T", locations=target_latlongs
@@ -49,7 +51,7 @@ class GMaps:
         return self.gmaps.static_map(
             size=(500, 500),
             scale=1,
-            zoom=12,
+            zoom=zoom_level,
             maptype="roadmap",
             style={"feature": "poi", "visibility": "off"},
             center=centroid_latlong,

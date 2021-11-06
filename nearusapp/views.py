@@ -26,6 +26,7 @@ def get_location(request):
             address_2 = form.cleaned_data["user_place_2"]
             address_3 = form.cleaned_data["user_place_3"]
             address_4 = form.cleaned_data["target_place"]
+            zoom_level = form.cleaned_data["zoom_level"]
 
             user_addresses = [address_1, address_2, address_3]
             user_places = [
@@ -45,7 +46,7 @@ def get_location(request):
 
             target_latlong = [i.get_latlong() for i in result_place]
             static_map = gmaps.get_static_map(
-                user_latlong, target_latlong, centroid_latlong
+                user_latlong, target_latlong, centroid_latlong, zoom_level
             )
             static_map_filename = save_to_media(static_map)
 
