@@ -155,7 +155,6 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         places_of_interest[i] for i in top_n_distances_idx
     ]
     return (
-        centroid_users,
         top_n_places_of_interest_short,
         top_n_places_of_interest_object,
     )

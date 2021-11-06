@@ -1,12 +1,9 @@
-from django.http.response import HttpResponse
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from staticmaps import staticmaps_func
 from script import (
+    save_to_media,
     gmaps,
     Place,
     centroid,
-    haversine_distance,
     distance_based_decision,
 )
 
@@ -36,23 +33,24 @@ def get_location(request):
             ]
             user_latlong = [i.get_latlong() for i in user_places]
 
-            centroid_users = centroid(user_places)
+            centroid_latlong = centroid(user_places)
             target_places = [
                 Place(ad_target)
-                for ad_target in gmaps.get_places_target(address_4, centroid_users)
+                for ad_target in gmaps.get_places_target(address_4, centroid_latlong)
             ]
 
-            centroid_users, result_short, result_place = distance_based_decision(
+            result_short, result_place = distance_based_decision(
                 5, target_places, user_places
             )
 
             target_latlong = [i.get_latlong() for i in result_place]
-            staticimg_url = staticmaps_func(
-                user_latlong, target_latlong, centroid_users
+            static_map = gmaps.get_static_map(
+                user_latlong, target_latlong, centroid_latlong
             )
+            static_map_filename = save_to_media(static_map)
 
             context["result"] = result_short
-            context["staticimg_url"] = staticimg_url
+            context["staticimg_url"] = f"/media/{static_map_filename}"
             return render(request, "cobacobaform.html", context)
     else:
         form = UserLocation()
