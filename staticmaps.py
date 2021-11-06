@@ -1,7 +1,12 @@
 from urllib.parse import urlencode
+import base64
 import os
 
+import requests
+
 API_KEY = os.environ.get("API_KEY")
+
+
 # user_latlong=list of lists
 def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users):
     markers_str = ""
@@ -51,4 +56,16 @@ def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users)
     }
     strparams = urlencode(params)
     final_url = f"{staticimg_url}{markers_str}&{strparams}"
-    return final_url
+
+    base64data = download_as_base64(final_url)
+    data_uri = base64_to_data_uri(base64data)
+    return data_uri
+
+
+def download_as_base64(url):
+    response = requests.get(url)
+    return base64.b64encode(response.content)
+
+
+def base64_to_data_uri(base64_str):
+    return "data:image/png;base64," + base64_str.decode("utf-8")
