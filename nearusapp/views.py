@@ -20,8 +20,6 @@ def get_location(request):
         "staticimg_url": None,
     }
 
-    staticimg_url = "https://maps.googleapis.com/maps/api/staticmap?"
-
     if request.method == "POST":
         form = context["form"] = UserLocation(request.POST)
 
@@ -50,7 +48,7 @@ def get_location(request):
 
             target_latlong = [i.get_latlong() for i in result_place]
             staticimg_url = staticmaps_func(
-                staticimg_url, user_latlong, target_latlong, centroid_users
+                user_latlong, target_latlong, centroid_users
             )
 
             context["result"] = result_short

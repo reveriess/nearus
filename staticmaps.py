@@ -8,7 +8,8 @@ API_KEY = os.environ.get("API_KEY")
 
 
 # user_latlong=list of lists
-def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users):
+def staticmaps_func(user_latlong, target_latlong, centroid_users):
+    api_url = "https://maps.googleapis.com/maps/api/staticmap?"
     markers_str = ""
     num_users = len(user_latlong)
     num_targets = len(target_latlong)
@@ -55,7 +56,7 @@ def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users)
         "key": API_KEY,
     }
     strparams = urlencode(params)
-    final_url = f"{staticimg_url}{markers_str}&{strparams}"
+    final_url = f"{api_url}{markers_str}&{strparams}"
 
     base64data = download_as_base64(final_url)
     data_uri = base64_to_data_uri(base64data)
