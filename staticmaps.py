@@ -1,3 +1,4 @@
+from urllib.parse import urlencode
 import os
 
 API_KEY = os.environ.get("API_KEY")
@@ -38,29 +39,16 @@ def staticmaps_func(staticimg_url, user_latlong, target_latlong, centroid_users)
         + ",".join([str(c) for c in centroid_users])
     )
     print(markers_str)
-    center = "center=" + str(centroid_users)
-    size = "size=500x500"
-    scale = "scale=1"
-    zoom = "zoom=11"
-    maptype = "maptype=roadmap"
-    style = "style=feature:poi%7Cvisibility:off"
-    final_url = (
-        staticimg_url
-        + center
-        + "&"
-        + size
-        + "&"
-        + scale
-        + "&"
-        + zoom
-        + "&"
-        + maptype
-        + "&"
-        + style
-        + "&"
-        + markers_str
-        + "&"
-        + "key="
-        + API_KEY
-    )
+
+    params = {
+        "center": str(centroid_users),
+        "size": "500x500",
+        "scale": "1",
+        "zoom": "12",
+        "maptype": "roadmap",
+        "style": "feature:poi|visibility:off",
+        "key": API_KEY,
+    }
+    strparams = urlencode(params)
+    final_url = f"{staticimg_url}{markers_str}&{strparams}"
     return final_url
