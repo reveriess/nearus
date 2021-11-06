@@ -159,3 +159,12 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         top_n_places_of_interest_short,
         top_n_places_of_interest_object,
     )
+
+
+def save_to_media(iter_content):
+    now = datetime.now().isoformat()
+    filename = f"{now}.png"
+    with open(f"media/{filename}", "wb") as f:
+        for chunk in iter_content:
+            f.write(chunk)
+    return filename
