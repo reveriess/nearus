@@ -148,8 +148,8 @@ def distance_based_decision(n, places_of_interest, places_of_users):
     top_n_places_of_interest_short = [
         [
             places_of_interest[i].name,
-            str(int(dist_places_untouched[i])) + " meters from centroid",
             places_of_interest[i].formatted_address,
+            str(int(dist_places_untouched[i])/1000),
         ]
         for i in top_n_distances_idx
     ]

@@ -1,6 +1,5 @@
 {% load static%}
 <!DOCTYPE html>
-<!-- masih ngikutin example tutorial aja. belom eksplor lagi-->
 <html>
   <head>
     <link rel="stylesheet" href="{% static 'style.css' %}" />
@@ -12,7 +11,8 @@
       {% csrf_token %} {{ form.as_p }}
       <input type="submit" value="OK" />
     </form>
-    {% if result %}
+
+    <!-- {% if result %} 
     <ol>
       {% for res in result%}
       <li>
@@ -23,8 +23,30 @@
         {%endfor%}
       </li>
       {%endfor%}
-    </ol>
+    </ol>-->
 
+    <!-- Tabular implementation -->
+    <!-- belom di run-->
+    <table>
+      {%with n="1"%}
+      <tr>
+        <th>No.</th>
+        <th>Place</th>
+        <th>Address</th>
+        <th>Euclidean distance from Centroid (km)</th>
+      </tr>
+      {%for res in result%}
+      {{n|add:"1"}}
+      <tr>
+        {for data in res%}
+        {data.append(n)}
+      <th>
+        {data}
+      </th>
+        {%endfor%}
+      </tr>
+      {%endfor%}
+    </table>
     <img src="{{staticimg_url}}" />
 
     {% endif %}
