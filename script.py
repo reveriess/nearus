@@ -49,7 +49,7 @@ class GMaps:
         markers = [user_markers, target_markers, centroid_marker]
 
         return self.gmaps.static_map(
-            size=(500, 500),
+            size=(500, 800),
             scale=1,
             zoom=zoom_level,
             maptype="roadmap",
@@ -130,6 +130,7 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         []
     )  # placeholder for top n places (index) with closest distance
     dist_places_untouched = []
+    order = []  # for displaying rank number
     # get the distance from each loc of interests to their centroid
     for i in places_of_interest:
         latlong = i.get_latlong()
@@ -145,16 +146,22 @@ def distance_based_decision(n, places_of_interest, places_of_users):
         idx_pop = dist_places.index(min(dist_places))
         dist_places.pop(dist_places.index(min(dist_places)))
         dist_places.insert(idx_pop, max(dist_places) + 1)
+        order.append(i + 1)
     top_n_places_of_interest_short = [
         [
-            places_of_interest[i].name,
-            str(int(dist_places_untouched[i])) + " meters from centroid",
-            places_of_interest[i].formatted_address,
+            order[top_n_distances_idx.index(i)],  # order
+            places_of_interest[i].name,  # place name
+            places_of_interest[i].formatted_address,  # address
+            str(int(dist_places_untouched[i]) / 1000),  # dist2centroid. converted to km
         ]
         for i in top_n_distances_idx
     ]
     top_n_places_of_interest_object = [
         places_of_interest[i] for i in top_n_distances_idx
+    ]
+    keys = ["order", "name", "address", "dist"]
+    top_n_places_of_interest_short = [
+        dict(zip(keys, i)) for i in top_n_places_of_interest_short
     ]
     return (
         top_n_places_of_interest_short,

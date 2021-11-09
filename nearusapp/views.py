@@ -16,7 +16,7 @@ def get_location(request):
         "result": None,
         "staticimg_url": None,
     }
-
+    n_suggestion=5
     if request.method == "POST":
         form = context["form"] = UserLocation(request.POST)
 
@@ -41,7 +41,7 @@ def get_location(request):
             ]
 
             result_short, result_place = distance_based_decision(
-                5, target_places, user_places
+                n_suggestion, target_places, user_places
             )
 
             target_latlong = [i.get_latlong() for i in result_place]
@@ -49,7 +49,7 @@ def get_location(request):
                 user_latlong, target_latlong, centroid_latlong, zoom_level
             )
             static_map_filename = save_to_media(static_map)
-
+            print(result_short[0])
             context["result"] = result_short
             context["staticimg_url"] = f"/media/{static_map_filename}"
             return render(request, "cobacobaform.html", context)

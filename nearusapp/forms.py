@@ -11,9 +11,9 @@ class UserLocation(forms.Form):
         widget=forms.NumberInput(
             attrs=dict(
                 type="range",
-                min="5",
+                min="8",
                 max="15",
-                value="10",
+                value="11",
                 id="zoom_level",
                 **{"class": "slider"}
             )
