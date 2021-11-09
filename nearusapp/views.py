@@ -49,7 +49,7 @@ def get_location(request):
                 user_latlong, target_latlong, centroid_latlong, zoom_level
             )
             static_map_filename = save_to_media(static_map)
-            
+            print(result_short[0])
             context["result"] = result_short
             context["staticimg_url"] = f"/media/{static_map_filename}"
             return render(request, "cobacobaform.html", context)

@@ -2,53 +2,38 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <p>Nearus</p>
-    <p>by reveriess & laymonage</p>
+    <div class="heading">
+      <h1>Nearus</h1>
+      <h2>by reveriess & laymonage</h2>
+    </div>
     <form method="post">
       {% csrf_token %} {{ form.as_p }}
       <input type="submit" value="OK" />
     </form>
-
-    <!-- {% if result %} 
-    <ol>
-      {% for res in result%}
-      <li>
-        {% for data in res%}
-        <ul>
-          <li>{{ data }}</li>
-        </ul>
-        {%endfor%}
-      </li>
-      {%endfor%}
-    </ol>-->
-
-    <!-- Tabular implementation -->
-    <!-- belom di run-->
-    <table>
-      {%with n="1"%}
-      <tr>
-        <th>No.</th>
-        <th>Place</th>
-        <th>Address</th>
-        <th>Euclidean distance from Centroid (km)</th>
-      </tr>
-      {%for res in result%}
-      {{n|add:"1"}}
-      <tr>
-        {for data in res%}
-        {data.append(n)}
-      <th>
-        {data}
-      </th>
-        {%endfor%}
-      </tr>
-      {%endfor%}
-    </table>
-    <img src="{{staticimg_url}}" />
-
-    {% endif %}
+    {% if result %}
+    <h2 class="result_title">Result</h2>
+    <div class="result_container">
+      <img src="{{staticimg_url}}" class="img_result" />
+      <div class="cards">
+        {%for place in result%}
+        <div class="single_card">
+          <div class="no">{{place.order}}</div>
+          <div class="name">{{place.name}}</div>
+          <div class="address">{{place.address}}</div>
+          <div class="distance">{{place.dist}} km from centroid</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
   </body>
 </html>
