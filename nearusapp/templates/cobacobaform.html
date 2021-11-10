@@ -2,11 +2,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Nearus</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
     />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
@@ -14,13 +19,67 @@
     <div class="title">
       <h1>Nearus</h1>
       <h2>by reveriess & laymonage</h2>
+      <h3>
+        <a href="https://github.com/reveriess/nearus">Pre-Alpha v.0.2.5 </a>
+      </h3>
     </div>
     <div class="header_container">
-      <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <input type="submit" value="OK" />
+      <form class="form_container" method="post">
+        {% csrf_token %}
+
+        <div class="text_label_set">
+          <label for="{{ form.u1 }}">Location 1:</label>
+          <div class="form_u1">{{form.user_place_1}}</div>
+        </div>
+
+        <div class="text_label_set">
+          <label for="{{ form.u2 }}">Location 2:</label>
+          <div class="form_u2">{{form.user_place_2}}</div>
+        </div>
+
+        <div class="text_label_set">
+          <label for="{{ form.u3 }}">Location 3:</label>
+          <div class="form_u3">{{form.user_place_3}}</div>
+        </div>
+
+        <div class="text_label_set">
+          <label for="{{ form.t }}">Target place:</label>
+          <div class="form_t">{{form.target_place}}</div>
+        </div>
+
+        <div class="slider_label_set">
+          <label class="slider_label" for="{{ zoom_slider }}"
+            >Map zoom level:</label
+          >
+          <div class="slider_and_legend">
+            <div class="left_slider_legend">Further</div>
+            <div class="zoom_slider">{{form.zoom_level}}</div>
+            <div class="right_slider_legend">Closer</div>
+          </div>
+        </div>
+
+        <input class="submit_button" type="submit" value="OK" />
       </form>
-      <div class="tutorial">{%lorem 1 p%}</div>
+      <div class="tutorial">
+        <div class="tutorial_content">
+          Nearus is a simple webapp to help you become more decisive on deciding
+          your hangout spot. Powered by Google Maps API, this webapp will
+          provide you list of your target places that are close to the center of
+          you and your friends.
+          <div class="tutorial_list">
+            <ol>
+              <li>Insert you and your friend's location</li>
+              <li>Insert the target place (e.g "GOR Badminton")</li>
+              <li>Press "OK" button</li>
+              <li>
+                If the map does not provide you with adequate information,
+                Adjust the zoom by using the slider and press "OK"
+              </li>
+            </ol>
+            <p>Your feedback is very valuable for us!</p>
+          </div>
+        </div>
+      </div>
     </div>
     {% if result %}
     <div class="result_title">Result</div>
@@ -30,14 +89,53 @@
         {%for place in result%}
         <div class="single_card">
           <div class="no">{{place.order}}</div>
-          <div class="name">{{place.name}}</div>
+          <div class="name">
+            {{place.name}}
+            <div class="rating_and_star">
+              <i
+                class="material-icons-outlined"
+                style="
+                  font-size: 20px;
+                  color: white;
+                  stroke: black;
+                  stroke-width: 20px;
+                  text-shadow: 20px;
+                  background-color: rgb(255, 145, 56);
+                "
+              >
+                star
+              </i>
+              <div class="rating">{{place.rating}}</div>
+            </div>
+          </div>
           <div class="address">{{place.address}}</div>
           <div class="distance">{{place.dist}} km from centroid</div>
+          <div class="is_open">
+            {% if place.opening_hours == True%}
+            <div class="buka">Open now</div>
+            {% else %}
+            <div class="tutup">Closed now</div>
+            {%endif%}
+          </div>
         </div>
         {% endfor %}
       </div>
       {% endif %}
     </div>
   </body>
-  <div class="footer">{%lorem 1 p%}</div>
+  <div class="footer">
+    <div class="footer_content">
+      <p
+        style="margin-bottom: 0; font-size: 14px; font-weight: 200"
+        class="footer_paragraph"
+      >
+        A project by
+        <a href="https://www.linkedin.com/in/sayidachmadm/"> Sayid A.M </a> and
+        <a href="https://github.com/laymonage"> Sage M.A </a>
+      </p>
+      <p style="margin-top: 0; font-size: 14px; font-weight: 200">
+        Aerospace Engineering and Computer Science grads \m/
+      </p>
+    </div>
+  </div>
 </html>

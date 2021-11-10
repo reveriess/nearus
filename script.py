@@ -153,13 +153,15 @@ def distance_based_decision(n, places_of_interest, places_of_users):
             places_of_interest[i].name,  # place name
             places_of_interest[i].formatted_address,  # address
             str(int(dist_places_untouched[i]) / 1000),  # dist2centroid. converted to km
+            places_of_interest[i].rating,
+            True if places_of_interest[i].opening_hours["open_now"] else False,
         ]
         for i in top_n_distances_idx
     ]
     top_n_places_of_interest_object = [
         places_of_interest[i] for i in top_n_distances_idx
     ]
-    keys = ["order", "name", "address", "dist"]
+    keys = ["order", "name", "address", "dist", "rating", "opening_hours"]
     top_n_places_of_interest_short = [
         dict(zip(keys, i)) for i in top_n_places_of_interest_short
     ]

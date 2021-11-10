@@ -16,7 +16,7 @@ def get_location(request):
         "result": None,
         "staticimg_url": None,
     }
-    n_suggestion=5
+    n_suggestion = 6
     if request.method == "POST":
         form = context["form"] = UserLocation(request.POST)
 
