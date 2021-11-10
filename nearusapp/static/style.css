@@ -36,9 +36,22 @@ h2 {
   margin: auto;
   text-align: center;
 }
-.heading {
+.title {
   margin-top: 5%;
   margin-bottom: 5%;
+}
+
+.header_container {
+  display: flex;
+  align-items: center;
+  padding: 3%;
+  width: 90%;
+  margin: auto;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  gap: 2%;
+  flex-wrap: wrap;
 }
 form {
   margin-left: 5%;
@@ -57,12 +70,8 @@ form {
 form p {
   font-size: small;
 }
-.result_title {
-  margin-top: 2%;
-  margin-bottom: 2%;
-  font-size: 30px;
-}
-.result_container {
+
+.tutorial {
   display: flex;
   align-items: center;
   padding: 3%;
@@ -71,6 +80,37 @@ form p {
   justify-content: center;
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
+  gap: 2%;
+  flex-wrap: wrap;
+}
+.result_title {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+  font-size: 30px;
+  background-color: rgb(255, 145, 56);
+  color: white;
+  width: 90%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  max-height: 1%;
+  text-align: center;
+}
+
+.result_container {
+  display: flex;
+  align-items: center;
+  padding: 3%;
+  width: 90%;
+  margin: auto;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   gap: 2%;
   flex-wrap: wrap;
 }
@@ -144,4 +184,13 @@ form p {
   padding-bottom: 4%;
   padding-top: 2%;
   padding-left: 3%;
+}
+
+.footer {
+  position: absolute;
+  background-color: rgb(255, 145, 56);
+  color: white;
+  text-align: center;
+  margin-top: 3%;
+  padding: 1%;
 }

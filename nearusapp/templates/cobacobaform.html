@@ -11,16 +11,19 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
-    <div class="heading">
+    <div class="title">
       <h1>Nearus</h1>
       <h2>by reveriess & laymonage</h2>
     </div>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <input type="submit" value="OK" />
-    </form>
+    <div class="header_container">
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <input type="submit" value="OK" />
+      </form>
+      <div class="tutorial">{%lorem 1 p%}</div>
+    </div>
     {% if result %}
-    <h2 class="result_title">Result</h2>
+    <div class="result_title">Result</div>
     <div class="result_container">
       <img src="{{staticimg_url}}" class="img_result" />
       <div class="cards">
@@ -36,4 +39,5 @@
       {% endif %}
     </div>
   </body>
+  <div class="footer">{%lorem 1 p%}</div>
 </html>
