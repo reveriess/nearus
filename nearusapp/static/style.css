@@ -290,10 +290,13 @@ form p {
 }
 
 .is_open .buka {
-  color: rgb(101, 240, 101);
+  color: rgb(51, 146, 51);
 }
 .is_open .tutup {
   color: rgb(226, 95, 95);
+}
+.is_open .no_opening_time {
+  color: rgb(165, 201, 37);
 }
 
 .footer {

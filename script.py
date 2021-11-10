@@ -77,7 +77,7 @@ class Place:
         self.icon_mask_base_uri = results.get("icon_mask_base_uri")
         self.international_phone_number = results.get("international_phone_number")
         self.name = results.get("name")
-        self.opening_hours = results.get("opening_hours")
+        self.opening_hours = results.get("opening_hours", {})
         self.permanently_closed = results.get("permanently_closed")
         self.photos = results.get("photos")
         self.place_id = results.get("place_id")
@@ -154,7 +154,7 @@ def distance_based_decision(n, places_of_interest, places_of_users):
             places_of_interest[i].formatted_address,  # address
             str(int(dist_places_untouched[i]) / 1000),  # dist2centroid. converted to km
             places_of_interest[i].rating,
-            True if places_of_interest[i].opening_hours["open_now"] else False,
+            places_of_interest[i].opening_hours.get("open_now"),
         ]
         for i in top_n_distances_idx
     ]

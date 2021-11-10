@@ -111,10 +111,12 @@
           <div class="address">{{place.address}}</div>
           <div class="distance">{{place.dist}} km from centroid</div>
           <div class="is_open">
-            {% if place.opening_hours == True%}
+            {% if place.opening_hours is True%}
             <div class="buka">Open now</div>
-            {% else %}
+            {% elif place.opening_hours is False %}
             <div class="tutup">Closed now</div>
+            {%else%}
+            <div class="no_opening_time">No opening hours information</div>
             {%endif%}
           </div>
         </div>
